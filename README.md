@@ -11,4 +11,9 @@ Development:
     ```
     npm install --legacy-peer-deps
     ```
-3. Edit and adjust
+3. Run development
+    ```
+    npm run dev
+    ```
+4. Open http://localhost:3000
+
