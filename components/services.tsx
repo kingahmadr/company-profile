@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Globe, Smartphone, Server, GitBranch, Brain, ArrowRight } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+import { url } from "inspector"
 
 const services = [
   {
@@ -12,6 +14,7 @@ const services = [
     description: "Create stunning, conversion-optimized landing pages that capture attention and drive results.",
     features: ["Responsive Design", "SEO Optimized", "Fast Loading", "Analytics Integration"],
     color: "from-blue-500 to-cyan-500",
+    url: "/services/landing-page-development",
   },
   {
     icon: Smartphone,
@@ -19,6 +22,7 @@ const services = [
     description: "Build powerful web and mobile applications tailored to your business needs.",
     features: ["Cross-Platform", "Scalable Architecture", "User-Centric Design", "API Integration"],
     color: "from-purple-500 to-pink-500",
+    url: "/services/software-apps-creation",
   },
   {
     icon: Server,
@@ -26,6 +30,7 @@ const services = [
     description: "Robust server solutions and cloud infrastructure for optimal performance and reliability.",
     features: ["Cloud Migration", "Load Balancing", "Security Hardening", "24/7 Monitoring"],
     color: "from-green-500 to-emerald-500",
+    url: "/services/server-infrastructure",
   },
   {
     icon: GitBranch,
@@ -33,6 +38,7 @@ const services = [
     description: "Streamline your development workflow with automated testing and deployment pipelines.",
     features: ["Automated Testing", "Deployment Automation", "Code Quality Gates", "Performance Monitoring"],
     color: "from-orange-500 to-red-500",
+    url: "/services/cicd-pipeline-consultation",
   },
   {
     icon: Brain,
@@ -40,11 +46,13 @@ const services = [
     description: "Leverage artificial intelligence to enhance your applications with smart features.",
     features: ["Machine Learning", "Natural Language Processing", "Computer Vision", "Predictive Analytics"],
     color: "from-indigo-500 to-purple-500",
+    url: "/services/ai-integration",
   },
 ]
 
 export function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const router = useRouter()
 
   return (
     <section id="services" className="py-20 bg-gray-50">
@@ -92,8 +100,13 @@ export function Services() {
                     ))}
                   </ul>
                   <Button
-                    variant="outline"
-                    className="w-full group-hover:bg-blue-600 group-hover:text-white transition-colors"
+                  variant="outline"
+                  className="w-full group-hover:bg-blue-600 group-hover:text-white transition-colors"
+                  onClick={() => {
+                    if (service.url) {
+                      router.push(service.url)
+                    }
+                  }}
                   >
                     Learn More
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

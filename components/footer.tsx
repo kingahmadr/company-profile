@@ -78,11 +78,11 @@ export function Footer() {
                   Our Team
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className="hover:text-white transition-colors">
                   Careers
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a href="#" className="hover:text-white transition-colors">
                   Contact
@@ -93,7 +93,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 TechFlow. All rights reserved.</p>
+          <p>&copy; 2025 TechFlow. All rights reserved.</p>
         </div>
       </div>
     </footer>
