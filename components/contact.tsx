@@ -10,19 +10,67 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
+
+  // Define the type for our form data state
+  interface FormDataState {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+}
+  interface StatusState {
+    message: string;
+    type: 'success' | 'error' | '';
+  }
+
+  const initialFormData: FormDataState = {
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  };
+
+  const [formData, setFormData] = useState<FormDataState>(initialFormData);
+
+  const [status, setStatus] = useState<StatusState>({
     message: "",
+    type: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false)
+  
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission here
+    setIsLoading(true);
+    setStatus({ message: '', type: '' });
     console.log("Form submitted:", formData)
     // Reset form
-    setFormData({ name: "", email: "", subject: "", message: "" })
+    // setFormData({ name: "", email: "", subject: "", message: "" })
+     try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setStatus({ message: result.message, type: 'success' });
+        setFormData(formData); // Reset form to initial state
+      } else {
+        setStatus({ message: result.message || 'Something went wrong.', type: 'error' });
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setStatus({ message: 'An error occurred. Please try again.', type: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+
+
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -167,10 +215,21 @@ export function Contact() {
                   <Button
                     type="submit"
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 group"
+                    disabled={isLoading}
                   >
-                    Send Message
-                    <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    {isLoading ? 'Sending...' : 'Send Message'}
+                     {!isLoading && (
+                      <Send className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                     )}
                   </Button>
+                  {/* FIX: Use Tailwind classes for styling the status message */}
+                  <div className="h-6 mt-2 text-center">
+                    {status.message && (
+                      <p className={`text-sm ${status.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                        {status.message}
+                      </p>
+                    )}
+                  </div>
                 </form>
               </CardContent>
             </Card>
