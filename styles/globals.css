@@ -82,6 +82,17 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  .formStatus {
+    margin-top: 15px;
+    font-size: 15px;
+    text-align: center;
+  }
+  .statusSuccess {
+      color: #16a34a;
+  }
+  .statusError {
+      color: #dc2626;
+}
 }
 
 @layer base {
