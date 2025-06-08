@@ -72,7 +72,7 @@ export function NavigationOnPage() {
             {["home", "services", "about", "contact"].map((item) => (
               <button
                 key={item}
-                onClick={() => scrollToSection(item)}
+                onClick={() => router.push("/")}
                 className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left capitalize"
               >
                 {item}
